@@ -7,3 +7,4 @@ CREATE TABLE `my_img` (
   `oldName` varchar(255) DEFAULT NULL COMMENT '旧文件名称',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  
