@@ -54,9 +54,25 @@
 					</div><!-- /.page-content --> 
 			</div><!-- /.main-container-inner -->
  			
- 			<img alt="示例图片" id="myImage" src="${baseurl}assets/images/gallery/image-1.jpg" style="width: 200px;height: 200px;">  
+ 			
+ 			 <div class="col-xs-12">
+					  <img alt="示例图片" id="myImage" src="${baseurl}assets/images/gallery/image-1.jpg" style="width: 20%;height: 20%;">  
+			 		<input id="imgId" type="hidden" value="">
+			 	<button id="downloadImg" class="btn btn-app btn-purple btn-sm">
+					<i class="icon-download-alt bigger-200"></i>
+					Download
+				</button>
+				
+				<button  id="deleteImg" class="btn btn-app btn-danger btn-sm">
+					<i class="icon-trash bigger-200"></i>
+					Delete
+				</button>
+				
+			 </div><!-- /.col -->
+ 			
+ 			
  
- 
+ 			
 		</div><!-- /.main-container --> 
 		<script src="${baseurl}assets/js/jquery-2.0.3.min.js"></script>
   
@@ -86,7 +102,7 @@
  
 		<script type="text/javascript">
  
-		
+		var basurl = '${baseurl}';
 		
 			jQuery(function($){ 
 			try {
@@ -111,19 +127,33 @@
 		        maxFilesize: 5,
 		        acceptedFiles: ".jpg,.png,.gif,.bmp,.jpeg,.JPG,.PNG,.GIF,.BMP,.JPEG", 
 		        init: function() {
+		        	var imgId = "";
 		        	 this.on("success", function(file, res) {
 		        		 //将json字符串转换成json对象  
 		        		 var imgUrl = res.data.url;
-		        		  console.log(imgUrl);
+		        		 imgId = res.data.imgId;
 		        		 document.getElementById("myImage").src=imgUrl;
-		        		 
+		        		 $("#imgId").val(imgId);
 		                 console.log("File " + file.name + "   uploaded");
 		                   
 		             });
-		        	 this.on("removedfile", function(file) {
-		                 console.log("File " + file.name + "removed");
-		             });
-	                 
+		        	 this.on("removedfile", function(file) { 
+		        		  console.log("imgId--->"+imgId);
+		        		  var pams  = {
+				        			'imgId':imgId 
+				        	 }
+		        		  $.post(basurl+'delFile',pams,function(data){  
+		 	        		 if (data.code == 200) {
+		 							 alert(data.message);
+		 							 return false;
+		 						} else {
+		 							alert(data.message);
+		 							 return false;
+		 						}
+		 	        	 }) ;
+		        		   
+		        		  
+		             });    
 		        }
 		   
 			  });
@@ -131,7 +161,47 @@
 			  alert('Dropzone.js 不支持旧浏览器!');
 			}
 			
+			}); 
+			$("#downloadImg").click(function(){
+				 var imgUrl =  document.getElementById("myImage").src; 
+				 var imgId =  $("#imgId").val();
+				 if(imgId=="" || imgId==null){
+					 alert("请先上传图片再操作。。");
+					 return false;
+				 }
+				 
+				 var url = basurl + "download?imgId="+imgId; 
+				 window.location.href= basurl + "download?imgId="+imgId;
+				 
 			});
+			 
+			
+			$("#deleteImg").click(function(){
+				 var imgId =  $("#imgId").val();
+				 if(imgId=="" || imgId==null){
+					 alert("请先上传图片再操作。。");
+					 return false;
+				 }
+				 
+				 var pams  = {
+		        			'imgId':imgId 
+		        	 }
+				 
+				 
+				 $.post(basurl+'delFile',pams,function(data){  
+	        		 if (data.code == 200) {
+							 alert(data.message);
+							 return false;
+						} else {
+							alert(data.message);
+							 return false;
+						}
+	        	 }) ;
+				 
+			});
+			 
+			
+			
 		</script>
  </body>
 </html>

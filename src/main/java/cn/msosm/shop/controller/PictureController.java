@@ -1,7 +1,11 @@
 package cn.msosm.shop.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model; 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,4 +40,27 @@ public class PictureController {
 		return result;
 	}
 
+	
+	@RequestMapping("/download")
+	public ResponseEntity<byte[]> download( String imgId, Model model,HttpServletResponse response){ 
+		return pictureService.download(imgId); 
+	}
+	
+	
+	@RequestMapping("/delFile")
+	@ResponseBody
+	public ResultModel delFile(String imgId) {
+		ResultModel result = 	pictureService.deleteFile(imgId); 
+		return result; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

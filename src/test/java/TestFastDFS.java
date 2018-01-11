@@ -1,3 +1,6 @@
+import java.io.IOException;
+
+import org.csource.common.MyException;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.StorageClient;
 import org.csource.fastdfs.StorageServer;
@@ -31,6 +34,12 @@ public class TestFastDFS {
 		 
 		
 	}
+ 
+	
+	
+	
+	
+	
 	
 	
 	@Test
@@ -41,6 +50,15 @@ public class TestFastDFS {
 		
 	}
 	
+	
+	
+	@Test
+	public void deleFileTest()  throws Exception {
+		//0:文件删除成功，2：文件不存在 ，其它：文件删除出错；
+		FastDFSClient dfsClient = new FastDFSClient("G:/learn/FastDfs/src/main/resources/resource/client.conf");
+		int count = dfsClient.deleteFile("group1", "M00/00/00/wKgAUlpXEwuAegixAAKpVDiozsk415.jpg");
+		System.out.println(count);
+	}
 	
 	
 	

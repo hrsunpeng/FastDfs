@@ -1,5 +1,8 @@
 package cn.msosm.shop.utils;
 
+import java.io.IOException;
+
+import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.StorageClient1;
@@ -72,5 +75,41 @@ public class FastDFSClient {
 	public String uploadFile(byte[] fileContent, String extName) throws Exception {
 		return uploadFile(fileContent, extName, null);
 	}
+	
+	/**
+	 * 下载文件
+	 * @param groupName
+	 * @param remoteFileName
+	 * @return
+	 */
+	public byte[] downFile(String groupName,String remoteFileName) {
+		byte[] content = null;
+		try {
+			content = storageClient.download_file(groupName, remoteFileName);
+		} catch (IOException e) { 
+			e.printStackTrace();
+		} catch (MyException e) { 
+			e.printStackTrace();
+		}
+		return content;
+	}
+	
+	
+	public int deleteFile(String groupName,String remoteFileName) {
+		int count =  0;
+		try {
+			 count =  storageClient.delete_file(groupName, remoteFileName);
+		} catch (IOException e) { 
+			e.printStackTrace();
+		} catch (MyException e) { 
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+ 
+	
+	
 	
 }
